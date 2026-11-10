@@ -15,7 +15,7 @@ The repository contains the Flutter starter and an active OpenSpec baseline. Pro
 - [Navigation](openspec/changes/define-product-baseline/specs/app-navigation/spec.md)
 - [Content recovery](openspec/changes/define-product-baseline/specs/content-recovery/spec.md)
 - [Project-structure quality gates](openspec/changes/define-product-baseline/structure-gates.md)
-- [Future implementation and delivery checklist](openspec/changes/define-product-baseline/tasks.md)
+- [Feature-focused development plan](openspec/changes/define-product-baseline/tasks.md)
 
 The selected stack is Flutter, Cached Query for remote query lifecycle, Riverpod for application state, Dio for HTTP, and Navigator for navigation. There is no DI layer. These selections do not mean dependencies are already installed; use latest stable compatible releases when implementation is authorized.
 

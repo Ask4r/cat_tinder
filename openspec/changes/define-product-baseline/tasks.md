@@ -1,36 +1,44 @@
-# Future delivery checklist
+# Feature-focused development plan
 
-This checklist records future work; no implementation is authorized by the current documentation request. The selected structure and toolchain are recorded in design.md; integration details will be resolved within feature implementation, and standard Flutter checks will be used during implementation without a separate setup stage. There is no separate query proof or preliminary query experiment. All unchecked items describe intended work, not completed validation.
+Implement these feature slices in order. This plan records future work and does not authorize implementation. All unchecked items are pending; the existing Flutter scaffold is not evidence of feature completion. The product baseline, selected structure/toolchain, and review gates have been documented.
 
-## 1. Engineering handoff
+Navigation, recovery, dependency choices, and relevant validation belong within each feature. They are not separate setup stages. Resolve query integration while implementing discovery; no standalone query proof is required. Apply [structure-gates.md](structure-gates.md) through review only, without automated structure/architecture linters or validators. Use standard Flutter checks and record applicable acceptance evidence throughout, rather than adding validation as a separate step after every task.
 
-- [x] 1.1 Reconcile the selected ownership boundaries, structure, toolchain, and shared detail UI with the product baseline (documentation only; 2026-11-11).
-- [ ] 1.2 Use the standard Flutter formatting, analysis, and release-build checks during implementation and record actual commands/results alongside relevant acceptance evidence; no custom gate-setup stage.
-- Superseded 1.3: the standalone query-integration proof is omitted by decision on 2026-11-11. Integration work and checks belong to discovery implementation (2.3), not a prerequisite stage.
-- [ ] 1.4 Resolve stable compatible dependency versions, choose image loading/cache handling, and tune refill/preload parameters; record concrete exceptions only if discovered.
-- [x] 1.5 Define project-structure gates, dependency boundaries, semantic review criteria, and evidence policy in structure-gates.md (documentation only; 2026-11-11).
-- [ ] 1.6 Apply G1–G8 through code review, without automated structure/architecture linters or validators; resolve the G5 callback/state dependency boundary before accepting its integration.
+## 1. Cat discovery
 
-## 2. Discovery and voting
+- [ ] 1.1 Show the current cat photograph and first-listed breed using the shared image queue, background append-only refill, and photograph preloading. Establish the Cached Query–Dio–Riverpod integration here, including centralized callbacks, safe cancellation/reuse, shared requests, and once-per-execution refill consumption. Choose image loading/cache handling and initial refill/preload settings within this feature.
+- [ ] 1.2 Support Like/Dislike through buttons and swipes, advancing immediately while independently attempting the image vote. Accept one decision per encounter, permit repeated images, and retain no discovery history or counters.
+- [ ] 1.3 Include bounded initial loading, exhausted-queue recovery, and same-photograph retry/skip without voting. Keep background refill failures unobtrusive while usable cards remain; isolate vote failures from content recovery and keep refill retryable.
 
-- [ ] 2.1 Deliver the shared append-only refill queue, usable random cards, and first-listed breed identity; verify first launch, multi-breed, empty-breed, preloaded-next-card, overlapping refill, and once-per-execution append scenarios and record results.
-- [ ] 2.2 Deliver button/swipe decisions and independent positive/negative vote attempts; verify repeated input, repeated image encounters, slow/failed voting, and no counters against cat-discovery/spec.md.
+Acceptance follows [cat-discovery](specs/cat-discovery/spec.md) and the applicable [content-recovery](specs/content-recovery/spec.md) scenarios, including overlapping input/refill, cached-result replay, empty or unusable records, and slow/failed votes. Settle the callback/state dependency boundary as part of this implementation and review it under G5–G6.
 
-- [ ] 2.3 As part of the discovery flow, implement centralized Cached Query/Dio callbacks with Riverpod state and settle cancellation, sharing, query keys, retry/refetch, and once-per-execution result consumption. Apply G5–G6 to the actual feature; no separate proof deliverable or widget-level lifecycle boilerplate.
+## 2. Discovery-origin details
 
-## 3. Information and navigation
+- [ ] 2.1 Open full breed information from the ready card photograph or link, preserving the exact discovery image and selected breed without consuming the queue head.
+- [ ] 2.2 Build reusable detail-content widgets with available fuller information, truthful missing-data presentation, and partial-content/image recovery. Confirm handwritten DTO fields against actual API data; never invent missing facts or treat unknown flags as No.
+- [ ] 2.3 Return to the same undecided discovery card through visible or platform Back, with the Discover context retained and no vote or automatic advancement.
 
-- [ ] 3.1 Deliver the complete catalog and contextual detail pages sharing the full information UI; verify exact-image preservation, first-listed breed consistency, optional-data fallbacks, and catalog-origin information against breed-information/spec.md.
-- [ ] 3.2 Deliver global tabs and contextual return; verify retained card/list position, button-only journeys, and navigation during requests against app-navigation/spec.md.
+Acceptance follows [breed-information](specs/breed-information/spec.md), [app-navigation](specs/app-navigation/spec.md), and scoped recovery requirements. Separate contextual pages are permitted; sharing the full detail UI does not require one page class or route.
 
-## 4. Content recovery
+## 3. Breed catalog and catalog-origin details
 
-- [ ] 4.1 Deliver bounded loading, content Retry, and image skip/retry; verify all content-recovery/spec.md scenarios including buffered refill failure and exhaustion, offline startup, mid-session loss, timeout, HTTP, malformed/empty data, and failed images, and record actual outcomes.
-- [ ] 4.2 Verify cross-endpoint isolation and late-result handling with controlled failures; confirm no duplicate vote on content Retry, no forced navigation, and no unhandled lifecycle failure.
+- [ ] 3.1 Display the complete alphabetical breed catalog with its loading/recovery states and open the selected breed from its row.
+- [ ] 3.2 Reuse the full detail-content widgets with the selected breed and its representative photograph, allowing readable information when no photograph is available. Preserve catalog position on return and leave discovery unaffected.
+- [ ] 3.3 Complete global Discover/Breeds navigation across both detail contexts, loading, and error states. Preserve discovery and catalog session state, highlight the originating tab in details, and implement the agreed root and contextual Back behavior without duplicate stacks or late-result navigation.
 
-## 5. Integrated acceptance and submission
+Acceptance follows the catalog, contextual navigation, and session-continuity scenarios. All journeys remain available without swipes; global navigation is part of the completed features, not deferred to release polish.
 
-- [ ] 5.1 Run all capability scenarios on the eventual app, including 320px width, short screens, enlarged text, action labels, and required semantics; record commit-specific results and genuine review findings.
-- [ ] 5.2 Run formatting, clean analysis, and release-build gates with externalized configuration; verify the resulting APK and that no secret or TLS workaround is committed.
-- [ ] 5.3 Prepare the later icon/media and eight-section submission README; verify current screenshots include an error, the counter omission is disclosed, and the user supplies the architecture explanation without AI.
-- [ ] 5.4 Publish only when authorized and verify the repository, submitted commit, Release tag, APK, commands, and media refer to the same version and are accessible.
+## 4. Application-wide usability
+
+- [ ] 4.1 Refine the complete flows against the Figma Application reference on narrow (including 320 logical pixels), short, and wider screens. Address enlarged text, accessibility labels and required semantics, touch targets, scrolling, long content, and gesture conflicts.
+- [ ] 4.2 Exercise cross-feature situations: rapid navigation, background/resume, slow requests, connection loss, endpoint outages, malformed/empty responses, and failed photographs. Resolve stale state writes, unintended repeated requests, lifecycle failures, or lost session continuity while preserving scoped recovery and nonblocking votes.
+
+Use the complete capability scenarios and record results against the reviewed version, along with genuine review findings. This stage integrates and refines feature behavior; it does not postpone ordinary correctness checks from earlier slices.
+
+## 5. Delivery
+
+- [ ] 5.1 Prepare the launcher icon, release APK, and current screenshots/video including a recovery state. Use externalized API configuration and standard formatting, clean analysis, and release-build checks; record actual commands/results and verify the resulting APK without committing secrets or TLS workarounds.
+- [ ] 5.2 Complete the eight-section submission README described in design.md, disclose the deliberate counter omission, link specifications and verification/review evidence, and obtain the user's own 5–10 sentence explanation without AI authorship.
+- [ ] 5.3 Publish only when authorized. Verify the repository, exact submitted commit, GitHub Release tag/APK, commands, and media refer to the same version and are accessible.
+
+Preserve the baseline in commit history before principal implementation when committing is authorized. This documentation task performs no commit, push, source change, or publication.

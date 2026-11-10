@@ -87,6 +87,10 @@ Implementation must support these existing assignment constraints:
 - Optional source data can be absent → show Not provided rather than infer facts or introduce another content service.
 - Static Figma is not runtime evidence → later verify the specified behavior in the app; do not require Figma changes or working prototype links.
 
+## Development sequence
+
+The [feature-focused development plan](tasks.md) proceeds through cat discovery, discovery-origin details, the breed catalog and catalog-origin details, application-wide usability, and delivery. Integration, recovery, navigation, and relevant checks are included in their features; dependency installation and per-step validation are not separate stages. No standalone query proof or architecture-checker setup is included.
+
 ## Project-structure acceptance
 
 [Project-structure quality gates](structure-gates.md) define ownership and dependency checks, review criteria, evidence, and pass/fail policy. They are review-only: automated structure/architecture linters and validators are excluded. Standard Flutter checks remain applicable without a separate setup stage. Query/state integration is verified within feature implementation.
