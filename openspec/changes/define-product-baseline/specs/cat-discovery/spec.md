@@ -18,6 +18,19 @@ Discover SHALL show a random API image and its associated breed name. A ready ca
 - **WHEN** the current encounter is decided and a prepared card is ready
 - **THEN** the next card appears without waiting for vote confirmation or showing an intervening loading alert
 
+### Requirement: Shared discovery queue
+The application SHALL own an ordered session queue of image entities whose head is the current image. A successful refill SHALL append entities without replacing queued encounters. Low-water refill and photograph preloading near the head SHALL prepare future cards. No explicit queue capacity, discovery history, or image-ID duplicate check is required. Each accepted vote SHALL capture the head for submission and pop that encounter exactly once.
+
+#### Scenario: Refill while browsing
+- **WHEN** a refill completes while cards remain queued
+- **THEN** its results append without changing the current head
+- **AND** that retrieval execution is consumed only once even if listeners remount or cached results are observed again
+
+#### Scenario: Overlapping refill triggers
+- **WHEN** multiple consumers or transitions trigger the same pending refill
+- **THEN** no unintended redundant refill or repeated consumption occurs
+- **AND** repeated image IDs returned by the API remain separate valid encounters
+
 ### Requirement: Equivalent primary decisions
 Like and Dislike SHALL be the primary product actions, available only on a ready, undecided discovery card. Like/button or right swipe SHALL submit a positive image vote; Dislike/button or left swipe SHALL submit a negative image vote. Both SHALL advance discovery.
 

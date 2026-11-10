@@ -26,12 +26,17 @@ The Breeds destination SHALL show all available valid breeds in alphabetical ord
 - **THEN** Details shows that selected breed's information without changing discovery or voting
 
 ### Requirement: Shared contextual details
-The application SHALL use one shared Details destination. Entry from Discover SHALL preserve the exact current photograph and selected breed. Entry from the catalog SHALL use the selected breed and a representative photograph when available. Photograph absence SHALL NOT block reading breed information.
+Details SHALL share the full breed-information UI across entry contexts; separate pages with shared widgets are permitted. Discover entry SHALL retain the queue-head image at navigation time and its selected breed without consuming the encounter. Catalog entry SHALL use the selected breed and a representative image when available. Missing photographs SHALL NOT block breed information.
 
 #### Scenario: Inspect current cat
 - **WHEN** the user taps the ready discovery photograph or View breed details
 - **THEN** Details shows that same image identity and the selected breed information
 - **AND** no replacement image is fetched merely to open Details
+
+#### Scenario: Shared content across page contexts
+- **WHEN** details are entered from Discover or the breed catalog
+- **THEN** the same full information hierarchy is available with context-specific data
+- **AND** the originating tab is highlighted and Back returns to that origin
 
 #### Scenario: Catalog entry without a photograph
 - **WHEN** the selected catalog breed has no available representative photograph

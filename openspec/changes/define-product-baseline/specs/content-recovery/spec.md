@@ -29,6 +29,14 @@ No network, connection loss, HTTP errors, malformed data, empty results, and unu
 - **WHEN** service access fails due to missing or rejected credentials
 - **THEN** the app explains that access is unavailable and remains navigable without displaying secret values
 
+### Requirement: Unobtrusive queue refill failure
+A failed background refill SHALL NOT interrupt usable queued discovery cards or display blocking recovery while those cards remain available. Once the queue is exhausted, an unresolved refill failure SHALL produce the dedicated discovery error UI with Retry. A pending refill with no usable card SHALL use bounded loading. Cancellation or failure SHALL NOT leave refill permanently marked in progress.
+
+#### Scenario: Refill fails before exhaustion
+- **WHEN** refill fails but usable queued cards remain
+- **THEN** the user continues discovery without a blocking error or alert
+- **AND** exhaustion without recovered content reveals the discovery error with Retry
+
 ### Requirement: Scoped idempotent content retry
 Retry SHALL repeat only the failed content operation without restarting the app, replaying a vote, or resetting retained successful data. Repeated Retry input SHALL NOT produce conflicting visible results. Already loaded catalog and details content SHALL remain usable when later requests fail.
 
