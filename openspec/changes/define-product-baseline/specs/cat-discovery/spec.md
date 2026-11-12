@@ -19,7 +19,7 @@ Discover SHALL show a random API image and its associated breed name. A ready ca
 - **THEN** the next card appears without waiting for vote confirmation or showing an intervening loading alert
 
 ### Requirement: Shared discovery queue
-The application SHALL own an ordered session queue of image entities whose head is the current image. A successful refill SHALL append entities without replacing queued encounters. Low-water refill and photograph preloading near the head SHALL prepare future cards. No explicit queue capacity, discovery history, or image-ID duplicate check is required. Each accepted vote SHALL capture the head for submission and pop that encounter exactly once.
+The application SHALL own an ordered session queue of image entities whose head is the current image. A successful refill SHALL append usable entities in response order without replacing queued encounters. Malformed or unusable records SHALL be skipped individually; valid repeated image IDs SHALL not be deduplicated. Low-water refill and photograph preloading near the head SHALL prepare future cards. No explicit queue capacity, discovery history, or image-ID duplicate check is required. Each accepted vote SHALL capture the head for submission and pop that encounter exactly once.
 
 #### Scenario: Refill while browsing
 - **WHEN** a refill completes while cards remain queued

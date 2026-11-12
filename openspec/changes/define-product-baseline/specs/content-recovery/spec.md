@@ -19,7 +19,23 @@ Content operations SHALL show loading while pending and end in usable content or
 - **AND** it does not wait for the vote response
 
 ### Requirement: Recoverable content errors
-No network, connection loss, HTTP errors, malformed data, empty results, and unusable discovery records SHALL produce understandable content errors with Retry. Missing or rejected configuration credentials SHALL explain unavailable service access without asking the user to enter a key. Errors SHALL NOT expose raw exceptions or cause unhandled failures.
+No network, connection loss, HTTP errors, invalid response structures, and discovery batches with no usable records SHALL produce understandable content errors with Retry. Discovery responses SHALL be lists. Within a valid list, malformed or unusable records SHALL be skipped silently; usable records SHALL be kept in source order, including repeated image IDs. A partially usable batch SHALL NOT itself trigger recovery or an alert. Existing queued content SHALL remain usable when a later batch fails. Missing or rejected configuration credentials SHALL explain unavailable service access without asking the user to enter a key. Errors SHALL NOT expose raw exceptions or cause unhandled failures.
+
+#### Scenario: Partially usable discovery batch
+- **WHEN** a discovery response is a list containing both usable and malformed or unusable records
+- **THEN** only the usable records are appended in their original order
+- **AND** invalid records are skipped without votes, alerts, or recovery UI
+- **AND** valid records with repeated image IDs remain separate encounters
+
+#### Scenario: No usable discovery records
+- **WHEN** the response list is empty or no usable records remain after filtering
+- **THEN** the content operation fails with Retry
+- **AND** any existing usable queue remains available, with blocking recovery shown only after exhaustion
+
+#### Scenario: Invalid discovery response structure
+- **WHEN** the response is not a list or cannot be decoded as JSON
+- **THEN** the content operation fails with Retry rather than treating the response as a discovery record
+- **AND** any existing usable queue remains available until exhaustion
 
 #### Scenario: Offline startup or mid-session outage
 - **WHEN** fetching content fails without usable results
@@ -53,7 +69,7 @@ A failed photograph SHALL have image-specific recovery. Discovery SHALL offer re
 
 #### Scenario: Discovery photograph fails
 - **WHEN** a discovery photograph cannot load
-- **THEN** voting is unavailable and the user can retry that image, skip without a vote, or use either tab
+- **THEN** voting is unavailable and the user can retry that image, skip without a vote, or use global navigation
 
 #### Scenario: Details photograph fails
 - **WHEN** the details photograph cannot load

@@ -7,7 +7,7 @@ Provide a complete breed catalog and consistent, truthful information for either
 ## ADDED Requirements
 
 ### Requirement: Contextual single breed identity
-Where one breed identity is required for an image, the application SHALL use the first listed API breed. It SHALL preserve the full association list and SHALL NOT apply this selection rule to the catalog. An empty or unusable first breed SHALL use content recovery rather than fabricated facts or silent selection of a later breed.
+Where one breed identity is required for an image, the application SHALL use the first listed API breed. It SHALL preserve the full association list and SHALL NOT apply this selection rule to the catalog. An empty or unusable first breed SHALL make that discovery record unusable. The record SHALL be skipped without fabricated facts or selection of a later breed; batch recovery applies only when no usable records remain or the response structure is invalid.
 
 #### Scenario: Multiple associated breeds
 - **WHEN** an image has multiple breeds
@@ -16,7 +16,8 @@ Where one breed identity is required for an image, the application SHALL use the
 
 #### Scenario: No usable breed
 - **WHEN** an image lacks a usable first breed identity
-- **THEN** it is not presented as a ready discovery card and the user can retry
+- **THEN** that record is skipped and is not presented as a ready discovery card
+- **AND** other usable records remain available; Retry is offered only if the batch has no usable records and no queued content remains
 
 ### Requirement: Complete catalog
 The Breeds destination SHALL show all available valid breeds in alphabetical order, not only the illustrated examples. Each entire breed row SHALL open information for that breed.

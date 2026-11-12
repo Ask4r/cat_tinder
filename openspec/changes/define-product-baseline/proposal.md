@@ -2,11 +2,11 @@
 
 ## Why
 
-Record the agreed product behavior before implementation so the assignment, Figma references, and evolving conversation have one reviewable baseline. This change is planning only: the existing Flutter scaffold is not evidence that these behaviors are implemented.
+Record the agreed product behavior before implementation so the assignment, Figma references, and evolving conversation have one reviewable baseline. The baseline began as planning only. Discovery, Settings appearance selection and retained root-tab navigation have since been explicitly authorized and implemented; details, catalog and delivery remain planned. See tasks.md and discovery-implementation.md for scope and verification.
 
 ## What Changes
 
-- Define Discover, Breeds, and contextual detail pages sharing the same information UI, with primary, secondary, global, and recovery actions.
+- Define Discover, Breeds, Settings appearance selection, and contextual detail pages sharing the same information UI, with primary, secondary, global, and recovery actions.
 - Define immediate discovery progression with independent positive/negative API vote submission.
 - Define first-listed breed selection only where an image needs one breed identity; retain other associations.
 - Define recoverable content failures and session continuity without making vote delivery block discovery.
@@ -28,7 +28,7 @@ None. The main OpenSpec capability inventory is empty.
 
 ## Impact
 
-This change reconciles planning artifacts and the project documentation entry point; it does not authorize implementation. Application source, dependencies, assets, Figma files, and existing project configuration remain unchanged. The intended application uses TheCatAPI image search, breeds, and votes; free API-key availability is assumed. No custom backend, account/login, saved collection, user identity system, preferences, or persistent vote queue is required.
+The specifications record the current agreed scope; editing them does not itself authorize new feature implementation. Subsequent implementation authorizations and verification are recorded in discovery-implementation.md. The intended application uses TheCatAPI image search, breeds, and votes; free API-key availability is assumed. No custom backend, account/login, saved collection, user identity system, preferences beyond appearance, or persistent vote queue is required.
 
 The assignment requires a visible increasing like counter and `like_counter` semantics. The user's final decision excludes counting entirely: this is an intentional coursework deviation, not a claim of full assignment compliance. It remains an external grading risk, not an unresolved product choice.
 
