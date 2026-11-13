@@ -54,11 +54,16 @@ class DiscoveryRecovery extends StatelessWidget {
       icon: photoFailed ? 'search' : 'alert-circle',
       actions: [
         if (onSkip != null)
-          AppButton(size: size, onPressed: onSkip, label: 'Skip photo'),
+          AppButton(
+            hierarchy: AppButtonHierarchy.secondary,
+            size: size,
+            onPressed: onSkip,
+            label: 'Skip photo',
+          ),
         Semantics(
           identifier: 'retry_button',
           child: AppButton(
-            primary: true,
+            hierarchy: AppButtonHierarchy.primary,
             size: size,
             onPressed: onRetry,
             label: 'Try again',

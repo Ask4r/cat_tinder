@@ -53,3 +53,8 @@ app.*.map.json
 config.json
 config.*.json
 !config.example.json
+!config.test.json
+
+# Visual comparison failure artifacts (approved goldens remain tracked)
+test/visual/failures/
+test/visual/**/failures/

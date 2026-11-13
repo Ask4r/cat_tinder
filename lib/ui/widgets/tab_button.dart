@@ -65,6 +65,11 @@ class _TabButtonState extends State<TabButton> {
         onPressed: onPressed,
         clipBehavior: Clip.none,
         style: ButtonStyle(
+          mouseCursor: WidgetStateProperty.resolveWith((states) {
+            return states.contains(WidgetState.disabled)
+                ? SystemMouseCursors.forbidden
+                : null;
+          }),
           animationDuration: Duration.zero,
           splashFactory: underline
               ? NoSplash.splashFactory

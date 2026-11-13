@@ -206,3 +206,55 @@ Removed the redundant empty-batch case; all-invalid batches and invalid response
 The disposal test now claims only the cancellation it directly asserts and drains pending work without a fixed sleep; it does not claim independent proof of ignored late state writes. The configuration test explicitly verifies missing configuration/no defaults in an unconfigured test run instead of duplicating URL parsing/normalization and conditionally claiming configured behavior. Credential isolation remains covered against actual photograph requests. Appearance persistence now verifies System restoration through a new provider session rather than inspecting the serialized value.
 
 No scenarios were added and application code was unchanged. Formatting, strict analysis, the full retained suite (11 tests, no skips) and whitespace checks passed. README documents the configuration-test invocation and coverage limit. No UI/browser/device verification was performed.
+
+## Grouped button screenshot testing — 2026-11-13
+
+Authorized Widgetbook 3.25.0 and Alchemist 0.14.1 as dev dependencies. widgetbook/button_sheet.dart builds the actual AppButton in 125 combinations (five hierarchies, five sizes, default/leading icon/trailing icon/disabled/loading) shared by the scrollable light/dark catalog and full-sheet capture. The visual runner uses native mouse input and keyboard traversal on medium/default examples for each hierarchy, recording padded cell crops instead of duplicating stories or asserting internal styling properties. Two grouped tests produce 22 PNGs: two full sheets and 20 hover/focus crops.
+
+Reference environment: macOS, Flutter 3.47.8, DPR 1, bundled real fonts/SVGs, shadows enabled, exact comparison; text-obscuring CI goldens disabled. Assets are preloaded and frames are advanced explicitly because loading animations never settle. The harness required taller cells and an explicit application theme on its MaterialApp keyboard-navigation wrapper; those harness issues were fixed before regenerating and comparing baselines. Inspected the full light/dark sheets and representative hover/focus crops for rendering problems. Initial baselines record the current UI, not a fresh Figma approval. Other component families, icon-only buttons, browser/device rendering and page flows are outside this initial screenshot coverage.
+
+Validation: strict analysis passed; baseline generation and subsequent comparison passed; full suite passed 13 tests (11 application contracts plus two visual tests). Widgetbook web compilation passed. The build emitted a missing optional Cupertino font warning from tooling and Wasm dry-run compatibility warnings; no Cupertino dependency or production UI change was introduced to suppress them. Documentation links/whitespace reviewed. The catalog was compiled, not browser-interaction audited. Production lib/ files are unchanged; generated platform registrations now include Widgetbook's transitive url_launcher plugin. See widgetbook/README.md for launch, test, baseline review and platform limitations.
+
+## AppButton hierarchy API cleanup — 2026-11-13
+
+AppButton now has one non-nullable hierarchy selector, defaulting to primary. Removed the public primary/link aliases and fallback precedence. Migrated all application consumers to explicit matching hierarchies, including the previously implicit secondary Dislike and Skip photo buttons; AppIconButton already supplies its own hierarchy. The playground exposes the same non-nullable selector with primary initially selected, without compatibility toggles. Its icon-only validation follows the simplified constructor. UI recipes, input handling, transitions and existing application appearance are unchanged.
+
+Validation: formatting, strict analysis, all 13 tests (including comparison against unchanged light/dark sheet and hover/focus baselines), Widgetbook web build and whitespace checks passed. No new test scenarios or baseline updates were needed. Updated the UI and catalog guides to describe the actual public interface.
+
+## Link-button hover correction — 2026-11-13
+
+Both link hierarchies now keep their fill and native overlay transparent in every state, including focus and touch press. Their native hover state resolves an underlined text style; the existing focus outline and foreground-color transitions remain. The existing splash selector suppresses link ripples without introducing gesture handling. Other button hierarchies are unchanged.
+
+Validation: formatting, strict analysis, all 13 existing tests and whitespace checks passed. Updated the existing grouped screenshots and inspected representative light/dark link hover and focus captures. No new scenarios were added; no fresh Figma or device acceptance is claimed.
+
+## Grouped pressed-button captures — 2026-11-13
+
+Extended the two existing light/dark screenshot tests with mouse-held and touch-held captures of each hierarchy's medium/default example. Native pointer events select the device and pressed state; captures occur 200ms after pointer down, followed by release and feedback cleanup. No production code or forced widget states were added. The suite now produces 42 images, including 20 pressed captures. Full-sheet loading phases were refreshed because the deterministic input sequence is longer.
+
+Inspected all pressed captures together: mouse retains hover appearance; touch renders native ink for non-link buttons; links remain background-free. The tertiary touch ripple retains its existing theme tint. These snapshots document current behavior, not new Figma or device acceptance. Formatting, strict analysis, baseline generation, subsequent screenshot comparison and whitespace checks passed.
+
+## Settled screenshot timing — 2026-11-13
+
+Replaced estimated capture/release delays with Flutter pumpAndSettle, advancing frames in 16ms increments until no frame remains scheduled, with a five-second timeout that fails rather than capturing unfinished feedback. Mouse/touch presses remain held while their finite animations settle; release feedback settles before subsequent input. Screenshot-only ButtonSheet configuration disables tickers for loading examples, fixing their perpetual rotation at its initial phase. Widgetbook defaults to live animation; production widgets are unchanged. Both SVG assets are preloaded before settling.
+
+Regenerated and inspected settled pressed captures in both themes and representative loading-sheet crops. Touch captures now show fully expanded ink rather than the earlier partial circles. Strict analysis, screenshot generation, subsequent comparison and whitespace checks passed. The same two grouped tests and 42 captures remain; this is settled-state coverage, not a test of intermediate motion or device rendering. Catalog instructions now describe native settling and the perpetual-animation exception, superseding earlier fixed-duration capture notes.
+
+## Spinner-only screenshot animation control — 2026-11-13
+
+Replaced the sheet's whole-loading-button TickerMode with LoadingIndicatorAnimationScope in the screenshot harness. LoadingIndicator alone consumes this optional presentation scope: disabling it resets and stops its native rotation controller at the initial frame. All button transitions remain enabled and participate in pumpAndSettle. The scope defaults to enabled when absent; application and Widgetbook install no override and retain their existing behavior, including reduced motion. Removed the temporary ButtonSheet animateLoading option.
+
+Formatting, strict analysis, all 13 tests and whitespace checks passed. Existing screenshot baselines matched without regeneration. No new test scenarios or application button options were introduced.
+
+## Compile-time test animation flag — 2026-11-13
+
+Replaced LoadingIndicatorAnimationScope with the global compile-time isTesting constant in lib/environment.dart, supplied by TESTING in the non-secret config.test.json. The existing FLUTTER_TEST variable is process-level rather than a portable compile-time declaration, so it is not used by application code. LoadingIndicator is currently the only consumer: test builds reset/stop rotation, while normal builds retain animation and reduced-motion behavior. Button transitions remain enabled. Other animations require explicit checks when needed; no automatic interception is claimed.
+
+The visual harness now fails early if test mode is absent. Test commands and the ignored-config exception were updated; application/Widgetbook launch commands remain unchanged. Strict analysis, formatting, all 13 tests with --dart-define-from-file=config.test.json and whitespace checks passed. Existing screenshot baselines matched without regeneration.
+
+The animation flag was subsequently renamed to disableInfiniteAnimations / DISABLE_INFINITE_ANIMATIONS to describe its specific effect rather than general test mode. Configuration, consumer, visual-harness guard and catalog documentation use the new name. It remains opt-in per animation; current behavior is unchanged.
+
+## Tertiary touch feedback isolation — 2026-11-13
+
+Tertiary TextButton now follows the existing primary/secondary overlay-fallback approach: a private native-button subclass clears default/theme overlay fallbacks, and a scoped theme supplies bgPrimaryHover as the splash color with transparent hover/focus overlays. This leaves Flutter's pressed highlight transparent instead of applying the ripple color across the whole button. Mouse splash suppression, hover fill, focus outline and native ripple timing are preserved. Link variants still explicitly suppress overlays and splashes.
+
+Strict analysis passed. Initial golden comparison exposed only tertiary touch-pressed edge differences (59 light pixels, 72 dark pixels) from removing the second antialiased highlight layer; inspected both resulting captures and the difference image before updating baselines. Generation and the subsequent full 13-test suite passed. Settled screenshots do not independently verify intermediate motion on a device.

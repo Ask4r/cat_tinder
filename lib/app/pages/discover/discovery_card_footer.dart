@@ -43,7 +43,7 @@ class DiscoveryCardFooter extends StatelessWidget {
           child: AppTooltip(
             message: 'Breed details are not available yet.',
             child: AppButton(
-              link: true,
+              hierarchy: AppButtonHierarchy.linkColor,
               size: AppButtonSize.sm,
               onPressed: null,
               label: 'View breed details',
@@ -57,6 +57,7 @@ class DiscoveryCardFooter extends StatelessWidget {
               Semantics(
                 identifier: 'dislike_button',
                 child: AppButton(
+                  hierarchy: AppButtonHierarchy.secondary,
                   onPressed: enabled ? () => onDecision(false) : null,
                   icon: 'close',
                   label: 'Dislike',
@@ -65,7 +66,7 @@ class DiscoveryCardFooter extends StatelessWidget {
               Semantics(
                 identifier: 'like_button',
                 child: AppButton(
-                  primary: true,
+                  hierarchy: AppButtonHierarchy.primary,
                   onPressed: enabled ? () => onDecision(true) : null,
                   icon: 'heart',
                   label: 'Like',

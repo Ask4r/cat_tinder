@@ -32,7 +32,7 @@ Acceptance follows the catalog, contextual navigation, and session-continuity sc
 
 ## 4. Application-wide usability
 
-UI/component test coverage is deferred to future Storybook work and remains pending; the previous Flutter UI suites have been removed. This does not mark the manual usability and platform checks below complete or authorize Storybook implementation now.
+The previous per-issue Flutter UI suites have been removed. Authorized Widgetbook/Alchemist setup now covers grouped AppButton variants and medium-default hover/focus in light/dark; remaining UI families and page coverage are pending. This does not mark the manual usability and platform checks below complete or authorize expansion to other families now.
 
 - [ ] 4.1 Refine the complete flows against the Figma Application reference on narrow (including 320 logical pixels), short, and wider screens. Address enlarged text, accessibility labels and required semantics, touch targets, scrolling, long content, and gesture conflicts.
 - [ ] 4.2 Exercise cross-feature situations: rapid navigation, background/resume, slow requests, connection loss, endpoint outages, malformed/empty responses, and failed photographs. Resolve stale state writes, unintended repeated requests, lifecycle failures, or lost session continuity while preserving scoped recovery and nonblocking votes.

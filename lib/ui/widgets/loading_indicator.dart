@@ -1,3 +1,5 @@
+import 'package:cat_tinder/environment.dart';
+
 import '../theme.dart';
 
 import 'package:flutter/material.dart';
@@ -22,7 +24,10 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (MediaQuery.disableAnimationsOf(context)) {
+    final reducedMotion = MediaQuery.disableAnimationsOf(context);
+    if (disableInfiniteAnimations) {
+      _rotation.reset();
+    } else if (reducedMotion) {
       _rotation.stop();
     } else {
       _rotation.repeat();

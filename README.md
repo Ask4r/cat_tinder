@@ -48,7 +48,7 @@ An existing local `.env` is no longer read. Use `config.json` for subsequent run
 ```sh
 dart format --output=none --set-exit-if-changed lib test
 flutter analyze --fatal-infos --fatal-warnings
-flutter test
+flutter test --dart-define-from-file=config.test.json
 flutter build apk --release --dart-define-from-file=config.json
 ```
 
@@ -58,4 +58,6 @@ Web photographs use Flutter’s HTML image loading strategy so CDN images can di
 
 ## Test scope
 
-The automated suite covers rejection of missing API configuration, discovery queue/query/vote/recovery behavior and appearance persistence. Run `flutter test` without service dart-defines; the configuration test deliberately verifies the unconfigured build, not valid configuration parsing. UI, component, animation and page/widget interaction suites have been removed; their replacement is planned with Storybook and is not implemented yet. Use manual UI/browser/device checks where relevant. Prefer a small set of meaningful contracts over one regression test per past issue; extend existing coverage instead of duplicating narrower scenarios.
+The automated suite covers rejection of missing API configuration, discovery queue/query/vote/recovery behavior and appearance persistence. Run `flutter test --dart-define-from-file=config.test.json` without service dart-defines; the configuration test deliberately verifies the unconfigured build, not valid configuration parsing. The former per-issue UI suites were removed. [Widgetbook and Alchemist](widgetbook/README.md) now cover grouped AppButton variants in light/dark and native hover/focus on medium defaults; other component families and page flows remain pending. Use manual UI/browser/device checks where relevant. Prefer a small set of meaningful contracts over one regression test per past issue; extend existing coverage instead of duplicating narrower scenarios.
+
+Run the catalog with `flutter run -d chrome --target widgetbook/main.dart`. Run application-contract tests with `flutter test --dart-define-from-file=config.test.json --exclude-tags visual`, and macOS screenshots with `flutter test --dart-define-from-file=config.test.json test/visual`. The default `flutter test --dart-define-from-file=config.test.json` runs both on macOS. No API configuration is needed for the catalog.

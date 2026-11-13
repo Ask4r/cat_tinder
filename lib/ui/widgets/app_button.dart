@@ -17,10 +17,8 @@ class AppButton extends StatefulWidget {
     this.icon,
     this.trailingIcon,
     this.onPressed,
-    this.primary = false,
     this.size = AppButtonSize.xl,
-    this.link = false,
-    this.hierarchy,
+    this.hierarchy = AppButtonHierarchy.primary,
     this.loading = false,
     this.loadingLabel = 'Submitting...',
     this.iconOnly = false,
@@ -28,10 +26,9 @@ class AppButton extends StatefulWidget {
        assert(
          !iconOnly ||
              (hierarchy != AppButtonHierarchy.linkColor &&
-                 hierarchy != AppButtonHierarchy.linkGray &&
-                 !link),
+                 hierarchy != AppButtonHierarchy.linkGray),
        );
-  final AppButtonHierarchy? hierarchy;
+  final AppButtonHierarchy hierarchy;
   final bool loading;
   final String loadingLabel;
   final bool iconOnly;
@@ -39,9 +36,7 @@ class AppButton extends StatefulWidget {
   final String? icon;
   final String? trailingIcon;
   final VoidCallback? onPressed;
-  final bool primary;
   final AppButtonSize size;
-  final bool link;
 
   @override
   State<AppButton> createState() => _AppButtonState();
@@ -93,13 +88,7 @@ class _AppButtonState extends State<AppButton> {
     final loadingLabel = widget.loadingLabel;
     final iconOnly = widget.iconOnly;
     final trailingIcon = widget.trailingIcon;
-    final hierarchy =
-        widget.hierarchy ??
-        (widget.link
-            ? AppButtonHierarchy.linkColor
-            : widget.primary
-            ? AppButtonHierarchy.primary
-            : AppButtonHierarchy.secondary);
+    final hierarchy = widget.hierarchy;
     final primary = hierarchy == AppButtonHierarchy.primary;
     final secondary = hierarchy == AppButtonHierarchy.secondary;
     final tertiary = hierarchy == AppButtonHierarchy.tertiary;
@@ -135,22 +124,20 @@ class _AppButtonState extends State<AppButton> {
         ? Duration.zero
         : const Duration(milliseconds: 100);
     final style = ButtonStyle(
+      mouseCursor: WidgetStateProperty.resolveWith((states) {
+        if (loading) return SystemMouseCursors.progress;
+        return states.contains(WidgetState.disabled)
+            ? SystemMouseCursors.forbidden
+            : null;
+      }),
       animationDuration: duration,
       splashFactory: _ButtonRippleFactory(
-        suppress: () => _pointerKind == PointerDeviceKind.mouse,
+        suppress: () => link || _pointerKind == PointerDeviceKind.mouse,
         fadeCancellation: primary || secondary,
       ),
-      overlayColor: WidgetStateProperty.resolveWith((states) {
-        if (primary || secondary) return null;
-        if (states.contains(WidgetState.pressed)) {
-          return null;
-        }
-        if (states.contains(WidgetState.hovered) ||
-            states.contains(WidgetState.focused)) {
-          return Colors.transparent;
-        }
-        return null;
-      }),
+      overlayColor: link
+          ? const WidgetStatePropertyAll(Colors.transparent)
+          : _noOverlay,
       elevation: const WidgetStatePropertyAll(0),
       visualDensity: VisualDensity.standard,
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -173,10 +160,23 @@ class _AppButtonState extends State<AppButton> {
                 vertical: variables.space((height - (smallText ? 20 : 24)) / 8),
               ),
       ),
-      textStyle: WidgetStatePropertyAll(
-        (smallText ? variables.typography.textSm : variables.typography.textMd)
-            .copyWith(fontWeight: FontWeight.w600),
-      ),
+      textStyle: WidgetStateProperty.resolveWith((states) {
+        return (smallText
+                ? variables.typography.textSm
+                : variables.typography.textMd)
+            .copyWith(
+              fontWeight: FontWeight.w600,
+              decoration: link ? TextDecoration.underline : TextDecoration.none,
+              decorationColor: link
+                  ? (colorLink
+                            ? colors.textBrandSecondaryHover
+                            : colors.textSecondaryHover)
+                        .withValues(
+                          alpha: states.contains(WidgetState.hovered) ? 1 : 0,
+                        )
+                  : null,
+            );
+      }),
       foregroundColor: WidgetStateProperty.resolveWith((states) {
         final hover =
             states.contains(WidgetState.hovered) ||
@@ -222,7 +222,7 @@ class _AppButtonState extends State<AppButton> {
           )
         : content;
     final Widget button = link || tertiary
-        ? TextButton(
+        ? _TextRippleButton(
             style: style,
             statesController: _states,
             clipBehavior: Clip.none,
@@ -252,7 +252,16 @@ class _AppButtonState extends State<AppButton> {
         AnimatedOpacity(
           opacity: disabled ? .5 : 1,
           duration: duration,
-          child: sizedButton,
+          child: tertiary
+              ? Theme(
+                  data: Theme.of(context).copyWith(
+                    hoverColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    splashColor: colors.bgPrimaryHover,
+                  ),
+                  child: sizedButton,
+                )
+              : sizedButton,
         ),
       );
     }
@@ -313,15 +322,13 @@ class _ButtonBackground extends StatelessWidget {
         hierarchy == AppButtonHierarchy.linkGray;
     final hover = states.contains(WidgetState.hovered) || loading;
     final color = link
-        ? (states.contains(WidgetState.focused)
-              ? colors.bgPrimary
-              : Colors.transparent)
+        ? Colors.transparent
         : tertiary
         ? (hover
               ? colors.bgPrimaryHover
               : states.contains(WidgetState.focused)
               ? colors.bgPrimary
-              : Colors.transparent)
+              : colors.bgPrimaryHover.withValues(alpha: 0))
         : primary
         ? (hover ? colors.bgBrandSolidHover : colors.bgBrandSolid)
         : (hover ? colors.bgPrimaryHover : colors.bgPrimary);
@@ -479,6 +486,24 @@ class _ButtonContent extends StatelessWidget {
 // A null overlay lets InkWell use its separate transparent highlight and the
 // theme splash color. Remove all overlay fallbacks, not just the local style.
 const _noOverlay = WidgetStatePropertyAll<Color?>(null);
+
+class _TextRippleButton extends TextButton {
+  const _TextRippleButton({
+    required super.onPressed,
+    required super.child,
+    super.style,
+    super.clipBehavior,
+    super.statesController,
+  });
+
+  @override
+  ButtonStyle defaultStyleOf(BuildContext context) =>
+      super.defaultStyleOf(context).copyWith(overlayColor: _noOverlay);
+
+  @override
+  ButtonStyle? themeStyleOf(BuildContext context) =>
+      super.themeStyleOf(context)?.copyWith(overlayColor: _noOverlay);
+}
 
 class _FilledRippleButton extends FilledButton {
   const _FilledRippleButton({

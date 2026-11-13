@@ -44,7 +44,7 @@ Check native Flutter/package configuration and, when necessary, source before ad
 
 For extractions, preserve widget keys, retained elements, inherited Theme/Material/Ink/text scopes, clipping and paint order, callback captures, timers/controllers and mounted/disposal guards. Do not move native button/ripple interaction ownership merely to shorten a build method.
 
-Manually inspect affected transitions as well as settled states until the planned Storybook coverage is implemented: hover, focus, touch press/release/cancel, disabled/loading changes, stationary-pointer enablement, theme changes mid-animation, rapid reversal and reduced motion. Preserve variant-specific policies; underline tabs have no background or focus outline, while gray tabs retain their accepted ripple/selection timing. Use the UI guide for details; do not reintroduce Flutter UI regression suites for individual past bugs.
+Manually inspect affected transitions as well as settled states alongside the scoped screenshot coverage: hover, focus, touch press/release/cancel, disabled/loading changes, stationary-pointer enablement, theme changes mid-animation, rapid reversal and reduced motion. Preserve variant-specific policies; underline tabs have no background or focus outline, while gray tabs retain their accepted ripple/selection timing. Use the UI guide for details; do not reintroduce Flutter UI regression suites for individual past bugs.
 
 ## Configuration
 
@@ -59,11 +59,11 @@ From the project directory, use checks appropriate to the change:
 ```sh
 dart format --output=none --set-exit-if-changed lib test
 flutter analyze --fatal-infos --fatal-warnings
-flutter test
+flutter test --dart-define-from-file=config.test.json
 git diff --check
 ```
 
-Format changed Dart files before checking. Keep automated tests focused on API contracts and application-state behavior. UI/component, rendering, animation and widget interaction tests are deferred to future Storybook work; do not implement Storybook as part of unrelated changes. Before adding a test, check whether an existing scenario already covers the contract; extend it where appropriate instead of adding a case for every past issue. Keep distinct failure/lifecycle contracts, but avoid variant matrices, smaller duplicate scenarios and tests of private helper shape or imports. Run relevant retained suites during implementation and the full suite when shared behavior is affected. Verify fixtures and observable readiness rather than adding arbitrary sleeps. Do not repeatedly rerun successful checks without further changes or unresolved concerns.
+Format changed Dart files before checking. Keep automated tests focused on API contracts and application-state behavior. Widgetbook and Alchemist now cover grouped AppButton sheets and medium-default hover/focus captures; see [catalog instructions](widgetbook/README.md). Other UI families remain pending. Extend shared stories and visual captures when authorized, not the removed per-issue assertion suites. Before adding a test, check whether an existing scenario already covers the contract; extend it where appropriate instead of adding a case for every past issue. Keep distinct failure/lifecycle contracts, but avoid variant matrices, smaller duplicate scenarios and tests of private helper shape or imports. Run relevant retained suites during implementation and the full suite when shared behavior is affected. Verify fixtures and observable readiness rather than adding arbitrary sleeps. Do not repeatedly rerun successful checks without further changes or unresolved concerns.
 
 Review structure/architecture manually under G1–G8. **Do not add automated architecture linters, import-boundary validators or structure tests.** No standalone query-proof stage is required.
 
@@ -74,7 +74,7 @@ Review structure/architecture manually under G1–G8. **Do not add automated arc
 - Compare coverage with broader existing scenarios before adding or keeping a case. Remove redundant assertions and cases; extend an existing scenario when it stays coherent. Keep separate cases only for distinct contracts, not different inputs that merely repeat the same path. Do not collapse unrelated contracts just to reduce the test count.
 - Use valid, representative fixtures and observable async completion. Fixed sleeps and absence of an exception do not prove completion or that late results were ignored.
 - Ensure test names and reports match assertions actually executed. Do not branch expected behavior by copying production logic or imply coverage of configurations/platforms that were not exercised. Narrow the claim when appropriate rather than automatically adding scenarios.
-- Judge tests by useful coverage and maintenance cost, not count. Review additions and existing affected tests against the [spec criteria](openspec/changes/define-product-baseline/structure-gates.md#test-review-criteria). UI testing remains deferred to Storybook.
+- Judge tests by useful coverage and maintenance cost, not count. Review additions and existing affected tests against the [spec criteria](openspec/changes/define-product-baseline/structure-gates.md#test-review-criteria). UI coverage uses grouped Widgetbook/Alchemist examples; remaining families are pending.
 
 Use actual browser/device checks for platform-specific changes. The browser photograph regression was removed with the UI suites; browser image loading now requires manual verification until replacement coverage exists. A web build does not verify Android rendering or replace an APK build. Build/run the affected platform when integration requires it; release APK validation remains delivery work:
 
