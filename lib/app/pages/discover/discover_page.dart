@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cat_tinder/state/discovery.dart';
 import 'package:cat_tinder/ui/theme.dart';
-import 'package:cat_tinder/ui/widgets/page_header.dart';
+import 'package:cat_tinder/ui/widgets/application/page_header.dart';
 
 import 'card_foreground_column.dart';
 import 'discovery_stage.dart';

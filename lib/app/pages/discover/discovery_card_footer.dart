@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:cat_tinder/ui/theme.dart';
-import 'package:cat_tinder/ui/widgets/app_button.dart';
-import 'package:cat_tinder/ui/widgets/app_tooltip.dart';
+import 'package:cat_tinder/ui/widgets/base/app_button.dart';
+import 'package:cat_tinder/ui/widgets/base/app_tooltip.dart';
 
 import '../../layouts/application_layout.dart';
 
@@ -42,6 +42,10 @@ class DiscoveryCardFooter extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppTooltip(
             message: 'Breed details are not available yet.',
+            viewportPadding: EdgeInsets.all(
+              ApplicationLayout.containerPadding(context),
+            ),
+            viewportMaxWidth: ApplicationLayout.maxWidth,
             child: AppButton(
               hierarchy: AppButtonHierarchy.linkColor,
               size: AppButtonSize.sm,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:cat_tinder/ui/theme.dart';
-import 'package:cat_tinder/ui/widgets/app_button.dart';
-import 'package:cat_tinder/ui/widgets/empty_state.dart';
-import 'package:cat_tinder/ui/widgets/loading_state.dart';
+import 'package:cat_tinder/ui/widgets/base/app_button.dart';
+import 'package:cat_tinder/ui/widgets/application/empty_state.dart';
+import 'package:cat_tinder/ui/widgets/application/loading_state.dart';
 
 import '../../layouts/application_layout.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cat_tinder/ui/theme.dart';
-import 'package:cat_tinder/ui/widgets/app_icon.dart';
+import 'package:cat_tinder/ui/widgets/assets/app_icon.dart';
 
 import 'application_layout.dart' show ApplicationFrame, ApplicationLayout;
 

@@ -8,15 +8,29 @@ export 'color_definitions.dart';
 
 @immutable
 class UiRadii {
-  const UiRadii({this.sm = 4, this.md = 8, this.lg = 10, this.xl = 12});
-  final double sm, md, lg, xl;
-  UiRadii copyWith({double? sm, double? md, double? lg, double? xl}) => UiRadii(
+  const UiRadii({
+    this.xs = 4,
+    this.sm = 6,
+    this.md = 8,
+    this.lg = 10,
+    this.xl = 12,
+  });
+  final double xs, sm, md, lg, xl;
+  UiRadii copyWith({
+    double? xs,
+    double? sm,
+    double? md,
+    double? lg,
+    double? xl,
+  }) => UiRadii(
+    xs: xs ?? this.xs,
     sm: sm ?? this.sm,
     md: md ?? this.md,
     lg: lg ?? this.lg,
     xl: xl ?? this.xl,
   );
   UiRadii lerp(UiRadii other, double t) => UiRadii(
+    xs: lerpDouble(xs, other.xs, t)!,
     sm: lerpDouble(sm, other.sm, t)!,
     md: lerpDouble(md, other.md, t)!,
     lg: lerpDouble(lg, other.lg, t)!,

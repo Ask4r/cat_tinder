@@ -6,6 +6,8 @@ A Flutter application under development for discovering cat images, sending Like
 
 The first development slice implements discovery: a prefetched image queue, Like/Dislike buttons and swipes, independent vote submission, and content/image recovery. Settings supports persisted Light/Dark/System appearance; root tabs retain views and scroll positions, crossfade, and participate in browser/platform history. Breed browsing and detail entry are visibly disabled until their planned feature slices are implemented. No counters are included.
 
+The current [Widgetbook scope](widgetbook/README.md) is complete, with selected component sheets, playgrounds and screenshot tests. Discovery-origin details are the next planned feature; breed catalog, full-application acceptance and delivery remain pending.
+
 See [implementation decisions and verification evidence](openspec/changes/define-product-baseline/discovery-implementation.md).
 
 ## Specifications and decisions
@@ -29,7 +31,7 @@ Like counting is deliberately excluded in every form despite the assignment's co
 - [Figma Application section](https://www.figma.com/design/acHPvZOOHJwYz12WXSZRQa/Cat-tinder?node-id=33-1843)
 - [TheCatAPI reference](https://docs.thecatapi.com/reference)
 
-Release instructions, verified commands/results, screenshots, APK links, and the user-authored explanation remain delivery work. This planning README does not claim a completed submission. The recent layout extraction and documentation reconciliations did not modify Figma files.
+Release instructions, verified commands/results, screenshots, APK links, and the user-authored explanation remain delivery work. This README describes the current implementation, not a completed submission.
 
 ## Run discovery
 
@@ -46,7 +48,7 @@ Both configuration values are supplied at build time through `--dart-define-from
 An existing local `.env` is no longer read. Use `config.json` for subsequent runs.
 
 ```sh
-dart format --output=none --set-exit-if-changed lib test
+dart format --output=none --set-exit-if-changed lib test widgetbook
 flutter analyze --fatal-infos --fatal-warnings
 flutter test --dart-define-from-file=config.test.json
 flutter build apk --release --dart-define-from-file=config.json
@@ -58,6 +60,6 @@ Web photographs use Flutter’s HTML image loading strategy so CDN images can di
 
 ## Test scope
 
-The automated suite covers rejection of missing API configuration, discovery queue/query/vote/recovery behavior and appearance persistence. Run `flutter test --dart-define-from-file=config.test.json` without service dart-defines; the configuration test deliberately verifies the unconfigured build, not valid configuration parsing. The former per-issue UI suites were removed. [Widgetbook and Alchemist](widgetbook/README.md) now cover grouped AppButton variants in light/dark and native hover/focus on medium defaults; other component families and page flows remain pending. Use manual UI/browser/device checks where relevant. Prefer a small set of meaningful contracts over one regression test per past issue; extend existing coverage instead of duplicating narrower scenarios.
+The automated suite covers rejection of missing API configuration, discovery queue/query/vote/recovery behavior and appearance persistence. Run `flutter test --dart-define-from-file=config.test.json` without service dart-defines; the configuration test deliberately verifies the unconfigured build, not valid configuration parsing. The former per-issue UI suites were removed. The completed [Widgetbook and Alchemist scope](widgetbook/README.md) covers selected light/dark component sheets and native button hover, focus, mouse-press and touch-press captures. The catalog guide defines the representative coverage and intentional omissions; page-flow automation is outside this scope. Use manual UI/browser/device checks where relevant. Prefer a small set of meaningful contracts over one regression test per past issue; extend existing coverage instead of duplicating narrower scenarios.
 
 Run the catalog with `flutter run -d chrome --target widgetbook/main.dart`. Run application-contract tests with `flutter test --dart-define-from-file=config.test.json --exclude-tags visual`, and macOS screenshots with `flutter test --dart-define-from-file=config.test.json test/visual`. The default `flutter test --dart-define-from-file=config.test.json` runs both on macOS. No API configuration is needed for the catalog.

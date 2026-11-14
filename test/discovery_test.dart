@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'support/fake_transport.dart';
+import 'internal/fake_transport.dart';
 
 Future<void> settleUntil(bool Function() predicate) async {
   for (var i = 0; i < 100; i++) {

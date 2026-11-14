@@ -6,6 +6,11 @@ import 'package:cat_tinder/ui/theme.dart';
 abstract final class ApplicationLayout {
   static const desktopBreakpoint = 768.0;
   static const maxWidth = 1280.0;
+
+  static double containerPadding(BuildContext context) =>
+      MediaQuery.sizeOf(context).width >= desktopBreakpoint
+      ? context.ui.space(8)
+      : context.ui.space(4);
 }
 
 /// The desktop frame includes its 32px gutters in the 1280px maximum.
@@ -21,11 +26,7 @@ class ApplicationFrame extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal:
-                MediaQuery.sizeOf(context).width >=
-                    ApplicationLayout.desktopBreakpoint
-                ? context.ui.space(8)
-                : context.ui.space(4),
+            horizontal: ApplicationLayout.containerPadding(context),
           ),
           child: child,
         ),

@@ -8,7 +8,7 @@ import 'package:cat_tinder/ui/theme.dart';
 import 'application_header.dart';
 import 'application_layout.dart';
 
-import 'package:cat_tinder/ui/widgets/horizontal_tabs.dart';
+import 'package:cat_tinder/ui/widgets/application/horizontal_tabs.dart';
 
 class ApplicationShell extends StatefulWidget {
   const ApplicationShell({
@@ -39,52 +39,58 @@ class _ApplicationShellState extends State<ApplicationShell> {
           children: [
             const ApplicationHeader(),
             Expanded(
-              child: SingleChildScrollView(
-                key: PageStorageKey('application-scroll-${widget.selected}'),
-                primary: false,
-                padding: EdgeInsets.only(
-                  top: desktop ? context.ui.space(8) : context.ui.space(6),
-                  bottom: context.ui.space(12),
-                ),
-                child: ApplicationFrame(
-                  key: _contentKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      HorizontalTabs<String>(
-                        value: widget.selected,
-                        items: const [
-                          TabItem(value: 'discover', label: 'Discover'),
-                          TabItem(
-                            value: 'breeds',
-                            label: 'Breeds',
-                            enabled: false,
-                            tooltip: 'Breed browsing is not available yet.',
-                            semanticIdentifier: 'breeds_tab',
+              child: Overlay.wrap(
+                child: SingleChildScrollView(
+                  key: PageStorageKey('application-scroll-${widget.selected}'),
+                  primary: false,
+                  padding: EdgeInsets.only(
+                    top: desktop ? context.ui.space(8) : context.ui.space(6),
+                    bottom: context.ui.space(12),
+                  ),
+                  child: ApplicationFrame(
+                    key: _contentKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        HorizontalTabs<String>(
+                          tooltipViewportPadding: EdgeInsets.all(
+                            ApplicationLayout.containerPadding(context),
                           ),
-                          TabItem(
-                            value: 'settings',
-                            label: 'Settings',
-                            semanticIdentifier: 'settings_tab',
-                          ),
-                        ],
-                        onChanged: widget.onSelected,
-                      ),
-                      SizedBox(height: context.ui.space(6)),
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          _TabView(
-                            active: widget.selected == 'discover',
-                            child: const DiscoverPage(),
-                          ),
-                          _TabView(
-                            active: widget.selected == 'settings',
-                            child: const SettingsPage(),
-                          ),
-                        ],
-                      ),
-                    ],
+                          tooltipViewportMaxWidth: ApplicationLayout.maxWidth,
+                          value: widget.selected,
+                          items: const [
+                            TabItem(value: 'discover', label: 'Discover'),
+                            TabItem(
+                              value: 'breeds',
+                              label: 'Breeds',
+                              enabled: false,
+                              tooltip: 'Breed browsing is not available yet.',
+                              semanticIdentifier: 'breeds_tab',
+                            ),
+                            TabItem(
+                              value: 'settings',
+                              label: 'Settings',
+                              semanticIdentifier: 'settings_tab',
+                            ),
+                          ],
+                          onChanged: widget.onSelected,
+                        ),
+                        SizedBox(height: context.ui.space(6)),
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            _TabView(
+                              active: widget.selected == 'discover',
+                              child: const DiscoverPage(),
+                            ),
+                            _TabView(
+                              active: widget.selected == 'settings',
+                              child: const SettingsPage(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

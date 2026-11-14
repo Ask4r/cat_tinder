@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cat_tinder/app/layouts/application_router.dart';
 import 'package:cat_tinder/ui/theme.dart';
-import 'package:cat_tinder/ui/widgets/app_icon.dart';
+import 'package:cat_tinder/ui/widgets/assets/app_icon.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

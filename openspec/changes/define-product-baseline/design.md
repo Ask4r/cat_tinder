@@ -110,6 +110,10 @@ lib/
     votes/
   ui/
     widgets/
+      base/
+      application/
+      assets/
+      internal/
     styles/
   state/
   app/
@@ -129,6 +133,8 @@ lib/
 - `app/layouts`: `application_layout.dart` owns shared frame/constants without importing pages; the shell imports those definitions and public page entry points. This area owns top-level application wrappers, navigation, and genuinely shared page coordination, including wrappers with no visual output. They reuse `ui`; app-level layout evolution must not require changing atomic `ui` widgets.
 - `app/widgets`: last resort for widgets reused across pages that cannot honestly fit `ui` or a single page. Prefer page ownership or limited general-purpose configuration first. Do not add domain options or arbitrary layout composition merely to avoid this folder. Use `widgets`, not `components`.
 
+The `widgets` directory is grouped into `base` (AppButton and AppTooltip), `application` (tabs and their item/select controls, PageHeader, EmptyState and LoadingState), `assets` (AppIcon, FeaturedIcon and LoadingIndicator), and `internal` (shared implementation helpers). These are presentation categories, not new state or dependency layers: `application` widgets still accept their content and selection from callers and do not access application state. Raw SVG/font files remain in the project assets directory.
+
 ## Selected toolchain and integration boundaries
 
 | Concern | Decision |
@@ -140,9 +146,13 @@ lib/
 | Navigation | Root tabs crossfade retained views in one shell; Flutter Router integrates tab URLs/browser history; the application owns the tab-visit list, Navigator remains for contextual detail pages; no routing package |
 | Remote model types | Manually authored from the API reference; no model-generation requirement |
 | Dependency injection | No DI layer or framework |
+| Component catalog | Widgetbook development entry point with selected grouped light/dark sheets and manual playgrounds |
+| Visual checks | Alchemist macOS screenshots of selected shared sheets and representative button interactions; dev dependency, not application runtime |
 | Versions | Default to latest stable compatible releases; depart only for a documented version-specific issue |
 
-The discovery implementation resolves versions in pubspec.yaml and pubspec.lock. Subsequent dependency changes follow the stable-compatible policy. Do not reopen these package selections merely because some integration code is needed.
+The current Widgetbook scope is complete. Catalog sources mirror widget ownership under `widgetbook/ui/widgets/{base,application,assets}` and app-owned paths, with shared catalog-only helpers in `widgetbook/internal`. See the [catalog instructions](../../../widgetbook/README.md) for retained coverage and the [coverage-selection criteria](structure-gates.md#widgetbook-and-screenshot-coverage-selection) for maintenance policy. Playground, sheet and screenshot coverage are separate choices, not requirements for every widget. Settled screenshots do not establish motion, page-flow or browser/device acceptance. The incomplete select popup remains excluded; future features and full-application verification remain pending.
+
+The implementation resolves versions in pubspec.yaml and pubspec.lock. Subsequent dependency changes follow the stable-compatible policy. Do not reopen these package selections merely because some integration code is needed.
 
 Query definitions under `api` must permit centralized success/error/lifecycle callbacks and integration with externally owned application state. Callbacks are not to be repeated in widgets or retrieval call sites. Cross-layer state updates should use an explicit integration boundary, not require API modules to know UI widgets. Discovery now wires the state owner’s callbacks into API query definitions once; `state` imports `api`, and `api` never imports state or widgets. See [implementation evidence](discovery-implementation.md) for the selected lifecycle policy and verification limits.
 

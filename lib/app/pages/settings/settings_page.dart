@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cat_tinder/state/appearance.dart';
 import 'package:cat_tinder/ui/theme.dart';
-import 'package:cat_tinder/ui/widgets/page_header.dart';
-import 'package:cat_tinder/ui/widgets/horizontal_tabs.dart';
+import 'package:cat_tinder/ui/widgets/application/page_header.dart';
+
+import 'theme_selector.dart';
 
 import '../../layouts/application_layout.dart';
 
@@ -35,15 +36,8 @@ class SettingsPage extends ConsumerWidget {
     final selection = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        HorizontalTabs<Appearance>(
-          style: HorizontalTabsStyle.gray,
-          fullWidth: true,
+        ThemeSelector(
           value: appearance,
-          items: const [
-            TabItem(value: Appearance.light, label: 'Light'),
-            TabItem(value: Appearance.dark, label: 'Dark'),
-            TabItem(value: Appearance.system, label: 'System'),
-          ],
           onChanged: (value) =>
               ref.read(appearanceProvider.notifier).select(value),
         ),
