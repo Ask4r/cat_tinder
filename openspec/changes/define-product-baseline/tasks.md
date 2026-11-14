@@ -47,7 +47,9 @@ Use the complete capability scenarios and record results against the reviewed ve
 
 ## 5. Delivery
 
-- [ ] 5.1 Prepare the launcher icon, release APK, and current screenshots/video including a recovery state. Use externalized API configuration and standard formatting, clean analysis, and release-build checks; record actual commands/results and verify the resulting APK without committing secrets or TLS workarounds.
+Platform branding is implemented: launcher/favicon assets, visible app names, descriptions, web manifest and startup branding. Asset generation uses `icons_launcher` and `flutter_native_splash`, with existing platform policies and first-frame timing preserved. See [branding sources and regeneration](../../../assets/branding/README.md). This completes the icon/metadata portion of 5.1 only; release APK acceptance, media, signing/identity review and publication remain pending.
+
+- [ ] 5.1 Prepare the release APK and current screenshots/video including a recovery state, retaining the implemented launcher branding. Use externalized API configuration and standard formatting, clean analysis, and release-build checks; record actual commands/results and verify the resulting APK without committing secrets or TLS workarounds.
 - [ ] 5.2 Complete the eight-section submission README described in design.md, disclose the deliberate counter omission, link specifications and verification/review evidence, and obtain the user's own 5–10 sentence explanation without AI authorship.
 - [ ] 5.3 Publish only when authorized. Verify the repository, exact submitted commit, GitHub Release tag/APK, commands, and media refer to the same version and are accessible.
 

@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="cat_tinder"
+        android:label="@string/app_name"
+        android:description="@string/app_description"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

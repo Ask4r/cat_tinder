@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Cat tinder
+Comment=Discover cat photographs and explore their breeds.
+Exec=cat_tinder
+Icon=com.example.cat_tinder
+Terminal=false
+Categories=Game;
+StartupWMClass=com.example.cat_tinder

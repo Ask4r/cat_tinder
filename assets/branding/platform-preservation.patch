@@ -1,0 +1,97 @@
+--- a/ios/Runner/Base.lproj/LaunchScreen.storyboard
++++ b/ios/Runner/Base.lproj/LaunchScreen.storyboard
+@@ -16,18 +16,13 @@
+                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                         <subviews>
+-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchBackground" translatesAutoresizingMaskIntoConstraints="NO" id="tWc-Dq-wcI"/>
+                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4"></imageView>
+                         </subviews>
+-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
++                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                         <constraints>
+                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="3T2-ad-Qdv"/>
+-                            <constraint firstItem="tWc-Dq-wcI" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="RPx-PI-7Xg"/>
+-                            <constraint firstItem="tWc-Dq-wcI" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="SdS-ul-q2q"/>
+-                            <constraint firstAttribute="trailing" secondItem="tWc-Dq-wcI" secondAttribute="trailing" id="Swv-Gf-Rwn"/>
+                             <constraint firstAttribute="trailing" secondItem="YRO-k0-Ey4" secondAttribute="trailing" id="TQA-XW-tRk"/>
+                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="duK-uY-Gun"/>
+-                            <constraint firstItem="tWc-Dq-wcI" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="kV7-tw-vXt"/>
+                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="xPn-NY-SIU"/>
+                         </constraints>
+                     </view>
+@@ -39,6 +34,6 @@
+     </scenes>
+     <resources>
+         <image name="LaunchImage" width="384" height="384"/>
+-        <image name="LaunchBackground" width="1" height="1"/>
++        <systemColor name="systemBackgroundColor"><color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></systemColor>
+     </resources>
+ </document>
+--- a/web/index.html
++++ b/web/index.html
+@@ -109,15 +109,14 @@
+       document.body.style.background = "transparent";
+     }
+   </script>
+-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+ </head>
+ <body>
+-  <picture id="splash">
++  <picture id="splash" role="status" aria-label="Loading Cat tinder">
+       <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
+       <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
+       <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
+   </picture>
+   
+ 
+   <noscript>Enable JavaScript to discover cats with Cat tinder.</noscript>
+   <script>
+--- a/android/app/src/main/res/drawable-night/launch_background.xml
++++ b/android/app/src/main/res/drawable-night/launch_background.xml
+@@ -1,8 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+-    <item>
+-        <bitmap android:gravity="fill" android:src="@drawable/background"/>
+-    </item>
++    <item android:drawable="?android:colorBackground"/>
+     <item>
+         <bitmap android:gravity="center" android:src="@drawable/splash"/>
+     </item>
+--- a/android/app/src/main/res/drawable/launch_background.xml
++++ b/android/app/src/main/res/drawable/launch_background.xml
+@@ -1,8 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+-    <item>
+-        <bitmap android:gravity="fill" android:src="@drawable/background"/>
+-    </item>
++    <item android:drawable="?android:colorBackground"/>
+     <item>
+         <bitmap android:gravity="center" android:src="@drawable/splash"/>
+     </item>
+--- a/android/app/src/main/res/drawable-night-v21/launch_background.xml
++++ b/android/app/src/main/res/drawable-night-v21/launch_background.xml
+@@ -1,8 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+-    <item>
+-        <bitmap android:gravity="fill" android:src="@drawable/background"/>
+-    </item>
++    <item android:drawable="?android:colorBackground"/>
+     <item>
+         <bitmap android:gravity="center" android:src="@drawable/splash"/>
+     </item>
+--- a/android/app/src/main/res/drawable-v21/launch_background.xml
++++ b/android/app/src/main/res/drawable-v21/launch_background.xml
+@@ -1,8 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+-    <item>
+-        <bitmap android:gravity="fill" android:src="@drawable/background"/>
+-    </item>
++    <item android:drawable="?android:colorBackground"/>
+     <item>
+         <bitmap android:gravity="center" android:src="@drawable/splash"/>
+     </item>

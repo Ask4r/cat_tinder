@@ -8,6 +8,8 @@ The first development slice implements discovery: a prefetched image queue, Like
 
 The current [Widgetbook scope](widgetbook/README.md) is complete, with selected component sheets, playgrounds and screenshot tests. Discovery-origin details are the next planned feature; breed catalog, full-application acceptance and delivery remain pending.
 
+Platform launcher icons, titles, descriptions and startup branding use the new Cat tinder icon. Icon and splash assets are generated with the development packages `icons_launcher` and `flutter_native_splash`. See [branding assets and regeneration](assets/branding/README.md). Release acceptance and publication remain pending.
+
 See [implementation decisions and verification evidence](openspec/changes/define-product-baseline/discovery-implementation.md).
 
 ## Specifications and decisions

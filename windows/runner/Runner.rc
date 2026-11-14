@@ -89,13 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "cat_tinder" "\0"
+            VALUE "FileDescription", "Cat tinder — discover cat photographs" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "cat_tinder" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "cat_tinder.exe" "\0"
-            VALUE "ProductName", "cat_tinder" "\0"
+            VALUE "ProductName", "Cat tinder" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

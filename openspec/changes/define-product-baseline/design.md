@@ -183,3 +183,7 @@ No unresolved product choice blocks the baseline. Discovery query/state integrat
 - Complete responsive/accessibility verification across future catalog and details views, implement their contextual Navigator behavior, and verify delivery gates and release artifacts. Current Discover/Settings UI is accepted for this stage; its scrolling and tab-history behavior are implemented and tested. Full-application acceptance and delivery assets remain pending.
 
 Do not treat OpenSpec artifact completeness as authorization to implement or archive the product change.
+
+### Platform asset generation
+
+Use `icons_launcher` and `flutter_native_splash` as development dependencies, configured by the root YAML files and invoked through `tool/generate_branding.sh`. Packages own asset resizing and splash generation; the narrow compatibility patch preserves existing native system backgrounds, window policies and web metadata. Startup remains first-frame-driven, with no runtime hold. Linux desktop packaging and its icon, plus the web Apple touch icon, remain checked-in because the selected generators do not cover those existing outputs without changing packaging. See [branding sources](../../../assets/branding/README.md).

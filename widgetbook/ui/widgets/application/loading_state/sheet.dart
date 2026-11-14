@@ -2,9 +2,6 @@ import 'package:cat_tinder/ui/theme.dart';
 import 'package:cat_tinder/ui/widgets/application/loading_state.dart';
 import 'package:flutter/material.dart';
 
-const loadingStateTitle = 'Finding your next cat';
-const loadingStateMessage = 'Fetching a fresh photograph. Hang tight.';
-
 class LoadingStateSheet extends StatelessWidget {
   const LoadingStateSheet({super.key});
 
@@ -22,20 +19,20 @@ class LoadingStateSheet extends StatelessWidget {
             (
               label: 'Default content / 400px',
               width: 400.0,
-              title: loadingStateTitle,
-              message: loadingStateMessage,
+              text: 'Loading...',
+              size: LoadingStateSize.md,
             ),
             (
               label: 'Long content / 400px',
               width: 400.0,
-              title: 'Finding a new photograph for you to discover',
-              message: 'We are preparing the next photograph. This message demonstrates how longer supporting text wraps within the component’s text constraint.',
+              text: 'We are preparing the next photograph. This message demonstrates how longer supporting text wraps within the available width.',
+              size: LoadingStateSize.md,
             ),
             (
               label: 'Narrow / 200px',
               width: 200.0,
-              title: loadingStateTitle,
-              message: loadingStateMessage,
+              text: 'Loading...',
+              size: LoadingStateSize.sm,
             ),
           ])
             SizedBox(
@@ -49,7 +46,7 @@ class LoadingStateSheet extends StatelessWidget {
                       color: context.ui.colors.textTertiary,
                     ),
                   ),
-                  LoadingState(title: example.title, message: example.message),
+                  LoadingState(size: example.size, text: example.text),
                 ],
               ),
             ),

@@ -1,0 +1,21 @@
+icons_launcher:
+  image_path: assets/branding/app-icon.png
+  platforms:
+    android:
+      enable: true
+      adaptive_background_image: assets/branding/adaptive-background.png
+      adaptive_foreground_image: assets/branding/adaptive-foreground.png
+    ios:
+      enable: true
+      image_path: assets/branding/icon-square.png
+    macos:
+      enable: true
+      image_path: assets/branding/icon-macos.png
+    windows:
+      enable: true
+    web:
+      enable: true
+      maskable_image_path: assets/branding/icon-maskable.png
+      favicon_output_extension: .png
+    linux:
+      enable: false

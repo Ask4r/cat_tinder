@@ -22,8 +22,7 @@ class DiscoveryLoading extends StatelessWidget {
           ? EdgeInsets.zero
           : EdgeInsets.all(variables.space(desktop ? 8 : 6)),
       child: LoadingState(
-        title: compact ? 'Loading photo' : 'Finding your next cat',
-        message: 'This should only take a moment.',
+        size: desktop ? LoadingStateSize.md : LoadingStateSize.sm,
       ),
     );
   }

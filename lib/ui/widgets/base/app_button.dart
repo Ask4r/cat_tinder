@@ -123,7 +123,7 @@ class _AppButtonState extends State<AppButton> {
         : const Duration(milliseconds: 100);
     final style = ButtonStyle(
       mouseCursor: WidgetStateProperty.resolveWith((states) {
-        if (loading) return SystemMouseCursors.progress;
+        if (loading) return SystemMouseCursors.wait;
         return states.contains(WidgetState.disabled)
             ? SystemMouseCursors.forbidden
             : null;
